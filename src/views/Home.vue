@@ -5,7 +5,7 @@
       v-if="step === 0"
       @click="changeStep"
     >
-      <img alt="Vue logo" src="/assets/logo.svg" class="w-25 img-fluid" />
+      <img alt="bike-logo" src="@/assets/logo.svg" class="w-25 img-fluid" />
       <h3 class="fw-bold ms-2 pe-4">BikeFun</h3>
     </div>
     <Start v-if="step === 1" />
@@ -42,12 +42,7 @@ export default {
   width: 100vw;
   height: 100vh;
   &-step1 {
-    background: linear-gradient(
-      to bottom,
-      $warning 0%,
-      lighten($warning, 25%) 50%,
-      $warning 100%
-    );
+    background: linear-gradient(to bottom, $warning 0%, lighten($warning, 25%) 50%, $warning 100%);
   }
   &-step2 {
     background: linear-gradient(

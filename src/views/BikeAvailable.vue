@@ -5,6 +5,7 @@
     :center="center"
     :tap="false"
     :options="{ zoomControl: false }"
+    @ready="getUserLocation"
   >
     <l-tile-layer
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -31,7 +32,7 @@
   <div>
     <Search />
 
-    <Footer />
+    <Footer :center="center" />
 
     <div
       v-if="stationInfoIsShow"
@@ -65,7 +66,7 @@
 
     <div class="nav-position d-flex flex-column" v-if="!stationInfoIsShow">
       <button class="border-0 nav-icon nav-icon-active my-2" @click.prevent="getUserLocation">
-        <img src="/assets/position.svg" alt="" srcset="" />
+        <img src="./assets/position.svg" alt="" srcset="" />
       </button>
       <button class="border-0 nav-icon nav-icon-active text-warning my-2">
         <font-awesome-icon :icon="['fas', 'location-arrow']" style="font-size: 32px" />
@@ -125,15 +126,6 @@ export default {
       },
     });
 
-    const stationInfoIsShow = ref(false);
-
-    const changeStationInfoIsShow = () => {
-      stationInfoIsShow.value = !stationInfoIsShow.value;
-    };
-
-    store.dispatch('getBikeStation', center.value);
-    const bikeMarkers = computed(() => store.state.bikeStations);
-
     // 取得目前所在位置
     const getUserLocation = () => {
       const options = {
@@ -155,6 +147,16 @@ export default {
 
       navigator.geolocation.getCurrentPosition(success, error, options);
     };
+
+    const stationInfoIsShow = ref(false);
+
+    const changeStationInfoIsShow = () => {
+      stationInfoIsShow.value = !stationInfoIsShow.value;
+    };
+
+    // 取得附近1000公尺的自行車站
+    store.dispatch('getBikeStation', center.value);
+    const bikeMarkers = computed(() => store.state.bikeStations);
 
     // 取得自行車站詳細資料
     const stationInfo = computed(() => store.getters.stationInfo);

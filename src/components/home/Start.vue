@@ -10,10 +10,7 @@
         <font-awesome-icon
           v-for="num of 3"
           :key="num"
-          :class="[
-            'mx-3',
-            infoStep == num - 1 ? 'text-process fs-4' : 'text-warning fs-5',
-          ]"
+          :class="['mx-3', infoStep == num - 1 ? 'text-process fs-4' : 'text-warning fs-5']"
           :icon="['fas', 'circle']"
         />
       </span>
@@ -37,24 +34,21 @@ export default {
       {
         step: 0,
         title: '方便租車',
-        content:
-          'YouBike自行車甲租乙還，一卡在手就能輕鬆租借，也可達到環保與節能。',
-        picture: '/assets/start01.png',
+        content: 'YouBike自行車甲租乙還，一卡在手就能輕鬆租借，也可達到環保與節能。',
+        picture: './assets/start01.png',
       },
       {
         step: 1,
         title: '規劃路線',
-        content:
-          '找到你的位置和附近自行車站點，也可查詢周邊景點和餐廳，方便你規劃路徑。',
-        picture: '/assets/start02.png',
+        content: '找到你的位置和附近自行車站點，也可查詢周邊景點和餐廳，方便你規劃路徑。',
+        picture: './assets/start02.png',
       },
       {
         step: 2,
         title: '自行車道推薦',
-        content:
-          '全台各個縣市都設置自行車路線，尋找自己喜愛的路線，來趟自行車之旅。',
+        content: '全台各個縣市都設置自行車路線，尋找自己喜愛的路線，來趟自行車之旅。',
 
-        picture: '/assets/start03.png',
+        picture: './assets/start03.png',
       },
     ];
     const info = ref(infos[infoStep.value]);
