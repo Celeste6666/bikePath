@@ -14,12 +14,12 @@ set -e
 
 # git init
 git add -A
-git commit -m '簡單完成搜尋功能'
+git commit -m '完成自行車、景點及餐廳標示'
 
 # 部署到 https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
 
 # 部署到 https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:Celeste6666/bikePath.git master:main
+git push -f git@github.com:Celeste6666/bikePath.git main:main
 
 cd -
