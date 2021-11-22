@@ -72,8 +72,18 @@ export default createStore({
           PictureUrl1: '',
           PictureDescription1: '',
         },
+        icon: {
+          'icon-url': '',
+        },
       },
     ],
+    // 目前所在 Icon 資料
+    markerDetail: {
+      id: '',
+      icon: {
+        'icon-url': '',
+      },
+    },
   },
   getters: {
     headers: (state) => {
@@ -118,6 +128,68 @@ export default createStore({
     getRestaurants(state, payload) {
       state.restaurants = payload;
     },
+    changeTourismMarker(state, payload) {
+      const {
+        prevID,
+        prevType,
+        nextID,
+        nextType,
+        newID,
+        newType,
+      } = payload;
+
+      const { restaurants, scenicSpots } = state;
+
+      if ((prevID && prevID !== newID) || (nextID && nextID !== newID)) {
+        // type === restaurant
+        if ((prevType === 'restaurant') || (nextType === 'restaurant')) {
+          // 把觀看中前後的餐廳 icon 變成未觸發的
+          const oldRestaurant = restaurants.filter((item) => item.RestaurantID === prevID || item.RestaurantID === nextID);
+          oldRestaurant.forEach((old) => {
+            const item = old;
+            item.icon = {
+              'icon-url': './assets/restaurantMarker.png',
+            };
+          });
+        }
+        if ((prevType === 'scenicSpot') || (nextType === 'scenicSpot')) {
+          // 把觀看中前後的景點 icon 變成未觸發的
+          const oldScenicSpot = scenicSpots.filter((item) => item.ScenicSpotID === prevID || item.ScenicSpotID === nextID);
+          oldScenicSpot.forEach((old) => {
+            const item = old;
+            item.icon = {
+              'icon-url': './assets/scenicSpotMarker.png',
+            };
+          });
+        }
+      }
+
+      state.markerDetail = {
+        id: '',
+        icon: {
+          'icon-url': '',
+        },
+      };
+
+      if (newID) {
+        // type === restaurant
+        if (newType === 'restaurant') {
+          // 把舊觀看的餐廳 icon 變成未觸發的
+          const newRestaurant = restaurants.find((item) => item.RestaurantID === newID);
+          newRestaurant.icon = {
+            'icon-url': './assets/restaurantMarkerActive.png',
+          };
+          state.markerDetail = newRestaurant;
+        } else if (newType === 'scenicSpot') {
+          // 把舊觀看的景點 icon 變成未觸發的
+          const newScenicSpot = scenicSpots.find((item) => item.ScenicSpotID === newID);
+          newScenicSpot.icon = {
+            'icon-url': './assets/scenicSpotMarkerActive.png',
+          };
+          state.markerDetail = newScenicSpot;
+        }
+      }
+    },
   },
   actions: {
     // 找出方圓 1000 公尺的 YouBike
@@ -143,7 +215,7 @@ export default createStore({
     },
     // 取得附近1000公尺的景點
     async getScenicSpots({ state, getters, commit }, payload) {
-      const api = `${state.api.ScenicSpot_url}&select=ScenicSpotID,ScenicSpotName,Position,Picture$top=30&$spatialFilter=nearby(${payload[0]},${payload[1]}, 1000)&$format=JSON`;
+      const api = `${state.api.ScenicSpot_url}&select=ScenicSpotID,ScenicSpotName,Position,Picture&$top=30&$filter=Picture/PictureUrl1 ne null&$spatialFilter=nearby(${payload[0]},${payload[1]}, 1000)&$format=JSON`;
       const res = await fetch(api, getters.headers);
       const scenicSpots = await res.json();
       scenicSpots.forEach((item) => {
@@ -158,7 +230,7 @@ export default createStore({
     },
     // 取得附近1000公尺的餐廳
     async getRestaurants({ state, getters, commit }, payload) {
-      const api = `${state.api.Restaurant_url}&select=RestaurantID,RestaurantName,Address,OpenTime,WebsiteUrl,Position,Picture$top=30&$spatialFilter=nearby(${payload[0]},${payload[1]}, 1000)&$format=JSON`;
+      const api = `${state.api.Restaurant_url}&select=RestaurantID,RestaurantName,Address,OpenTime,WebsiteUrl,Position,Picture&$top=30&$filter=Picture/PictureUrl1 ne null&$spatialFilter=nearby(${payload[0]},${payload[1]}, 1000)&$format=JSON`;
       const res = await fetch(api, getters.headers);
       const restaurants = await res.json();
       restaurants.forEach((item) => {

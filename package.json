@@ -17,6 +17,7 @@
     "core-js": "^3.6.5",
     "crypto-js": "^4.1.1",
     "leaflet": "^1.7.1",
+    "swiper": "^7.3.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
@@ -52,7 +53,8 @@
       "operator-linebreak": [
         "error",
         "after"
-      ]
+      ],
+      "max-len": ["warn", { "code": 100 }]
     }
   },
   "browserslist": [

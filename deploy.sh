@@ -14,7 +14,7 @@ set -e
 
 # git init
 git add -A
-git commit -m '完成自行車、景點及餐廳標示'
+git commit -m '完成景點及餐廳顯示、簡化查詢景點及餐廳marker顯示功能'
 
 # 部署到 https://<USERNAME>.github.io
 # git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Search :center="center" />
+    <Search :center="center" @changeDetailSwiperShow="changeDetailSwiperShow" />
 
     <Map
       :center="center"
@@ -39,7 +39,13 @@
       </div>
     </div>
 
-    <div class="nav-position d-flex flex-column" v-if="!stationInfoIsShow">
+    <DetailSwiper
+      class="nav-detail"
+      v-if="detailSwiperisShow"
+      @changeDetailSwiperShow="changeDetailSwiperShow"
+    />
+
+    <div class="nav-position d-flex flex-column" v-if="!stationInfoIsShow && !detailSwiperisShow">
       <button class="border-0 nav-icon nav-icon-active my-2" @click.prevent="getUserLocation">
         <img src="/assets/position.svg" alt="" srcset="" />
       </button>
@@ -55,15 +61,17 @@ import { useStore } from 'vuex';
 
 import { ref, computed } from 'vue';
 
+import Search from '@/components/general/Search.vue';
 import Map from '@/components/general/Map.vue';
 import Footer from '@/components/general/Footer.vue';
-import Search from '@/components/general/Search.vue';
+import DetailSwiper from '@/components/bikeAvailable/DetailSwiper.vue';
 
 export default {
   components: {
     Map,
     Search,
     Footer,
+    DetailSwiper,
   },
   setup() {
     const store = useStore();
@@ -75,7 +83,6 @@ export default {
 
     // 取得目前所在位置
     const getUserLocation = () => {
-      console.log('getUserLocation');
       const options = {
         enableHighAccuracy: true,
         timeout: 5000,
@@ -107,6 +114,12 @@ export default {
     // 取得自行車站詳細資料
     const stationInfo = computed(() => store.getters.stationInfo);
 
+    const detailSwiperisShow = ref(false);
+
+    const changeDetailSwiperShow = (val) => {
+      detailSwiperisShow.value = val;
+    };
+
     return {
       center,
       stationInfoIsShow,
@@ -114,6 +127,8 @@ export default {
       changeStationInfoToTrue,
       getUserLocation,
       stationInfo,
+      detailSwiperisShow,
+      changeDetailSwiperShow,
     };
   },
 };
@@ -128,6 +143,7 @@ export default {
 .nav {
   &-footer,
   &-stationInfo,
+  &-detail,
   &-position {
     position: absolute;
     z-index: 999;
@@ -147,6 +163,10 @@ export default {
         border-bottom: 1px dashed $danger;
       }
     }
+  }
+
+  &-detail {
+    bottom: 17%;
   }
 
   &-position {

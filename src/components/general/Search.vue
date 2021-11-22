@@ -14,16 +14,18 @@
     <div class="my-4 fs-5">
       <button
         class="border border-2 border-dark rounded-pill px-3 py-2 bg-white me-3"
-        @click="getScenicSpots"
+        data-url="ScenicSpot"
+        @click="getTourism"
       >
-        <font-awesome-icon :icon="['fas', 'camera']" class="me-1" />
+        <font-awesome-icon :icon="['fas', 'camera']" class="me-1" data-url="ScenicSpot" />
         周邊景點
       </button>
       <button
         class="border border-2 border-dark rounded-pill px-3 py-2 bg-white"
-        @click="getRestaurants"
+        data-url="Restaurant"
+        @click="getTourism"
       >
-        <font-awesome-icon :icon="['fas', 'utensils']" class="me-1" />
+        <font-awesome-icon :icon="['fas', 'utensils']" class="me-1" data-url="Restaurant" />
         周邊餐廳
       </button>
     </div>
@@ -38,23 +40,24 @@ export default {
   props: {
     center: Array,
   },
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore();
     const { center } = toRefs(props);
 
-    // 找出附近景點
-    const getScenicSpots = async () => {
-      await store.dispatch('getScenicSpots', center.value);
-    };
-
-    // 找出附近餐廳
-    const getRestaurants = async () => {
-      await store.dispatch('getRestaurants', center.value);
+    const getTourism = async (e) => {
+      const { url } = e.target.dataset;
+      if (url === 'ScenicSpot') {
+        // 找出附近景點
+        await store.dispatch('getScenicSpots', center.value);
+      } else if (url === 'Restaurant') {
+        // 找出附近餐廳
+        await store.dispatch('getRestaurants', center.value);
+      }
+      emit('changeDetailSwiperShow', true);
     };
 
     return {
-      getScenicSpots,
-      getRestaurants,
+      getTourism,
     };
   },
 };

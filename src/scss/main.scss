@@ -16,6 +16,7 @@ $h5-font-size: $font-size-base * 1.5 !default;
 $small-font-size: $font-size-base * .775 !default;
 
 $input-focus-box-shadow: transparent;
+$btn-close-opacity:1;
 
 @import "~/node_modules/bootstrap/scss/bootstrap";
 
