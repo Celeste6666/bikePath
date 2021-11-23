@@ -5,7 +5,7 @@
       v-if="step === 0"
       @click="changeStep"
     >
-      <img alt="bike-logo" src="/assets/logo.svg" class="w-25 img-fluid" />
+      <img alt="bike-logo" src="../../public/assets/logo.svg" class="w-25 img-fluid" />
       <h3 class="fw-bold ms-2 pe-4">BikeFun</h3>
     </div>
     <Start v-if="step === 1" />

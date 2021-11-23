@@ -47,7 +47,7 @@
 
     <div class="nav-position d-flex flex-column" v-if="!stationInfoIsShow && !detailSwiperisShow">
       <button class="border-0 nav-icon nav-icon-active my-2" @click.prevent="getUserLocation">
-        <img src="/assets/position.svg" alt="" srcset="" />
+        <img src="../../public/assets/position.svg" alt="" srcset="" />
       </button>
       <button class="border-0 nav-icon nav-icon-active text-warning my-2">
         <font-awesome-icon :icon="['fas', 'location-arrow']" style="font-size: 32px" />
